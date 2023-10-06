@@ -5,7 +5,7 @@ import "ERC20.sol";
 import "ERC20Burnable.sol";
 import "MerkleProof.sol";
 import "ERC20Votes.sol";
-import "ERC20Permit";
+import "ERC20Permit.sol";
 
 
 contract TestToken is ERC20, ERC20Burnable, ERC20Permit, ERC20Votes {
@@ -24,7 +24,7 @@ contract TestToken is ERC20, ERC20Burnable, ERC20Permit, ERC20Votes {
 
     event Claim(uint32 rank, address indexed to, uint16 term);
 
-    constructor() ERC20("Test Token", "TEST") {
+    constructor() ERC20("Test Token", "TEST") ERC20Permit("Test Token") {
     }
 
     function _afterTokenTransfer(address from, address to, uint256 amount) internal override(ERC20, ERC20Votes) {
