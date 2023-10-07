@@ -30,5 +30,3 @@ GovernorVotes.sol
 Checkpoints.sol
 GovernorVotesQuorumFraction.sol
 TestGovernor.sol
-
-0xBAD51Fc3efe03E62430e018ccdD23462CDB0f96f
