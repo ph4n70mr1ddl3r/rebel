@@ -20,6 +20,7 @@ interface IERC20Metadata is IERC20 {
 }
 
 abstract contract Context {
+
     function _msgSender() internal view virtual returns (address) {
         return msg.sender;
     }
@@ -465,24 +466,6 @@ library Strings {
 
 library MessageHashUtils {
 
-    function toEthSignedMessageHash(bytes32 messageHash) internal pure returns (bytes32 digest) {
-        /// @solidity memory-safe-assembly
-        assembly {
-            mstore(0x00, "\x19Ethereum Signed Message:\n32") // 32 is the bytes-length of messageHash
-            mstore(0x1c, messageHash) // 0x1c (28) is the length of the prefix
-            digest := keccak256(0x00, 0x3c) // 0x3c is the length of the prefix (0x1c) + messageHash (0x20)
-        }
-    }
-
-    function toEthSignedMessageHash(bytes memory message) internal pure returns (bytes32) {
-        return
-            keccak256(bytes.concat("\x19Ethereum Signed Message:\n", bytes(Strings.toString(message.length)), message));
-    }
-
-    function toDataWithIntendedValidatorHash(address validator, bytes memory data) internal pure returns (bytes32) {
-        return keccak256(abi.encodePacked(hex"19_00", validator, data));
-    }
-
     function toTypedDataHash(bytes32 domainSeparator, bytes32 structHash) internal pure returns (bytes32 digest) {
         /// @solidity memory-safe-assembly
         assembly {
@@ -496,52 +479,9 @@ library MessageHashUtils {
 }
 
 library StorageSlot {
-    struct AddressSlot {
-        address value;
-    }
-
-    struct BooleanSlot {
-        bool value;
-    }
-
-    struct Bytes32Slot {
-        bytes32 value;
-    }
-
-    struct Uint256Slot {
-        uint256 value;
-    }
 
     struct StringSlot {
         string value;
-    }
-
-    struct BytesSlot {
-        bytes value;
-    }
-
-    function getAddressSlot(bytes32 slot) internal pure returns (AddressSlot storage r) {
-        assembly {
-            r.slot := slot
-        }
-    }
-
-    function getBooleanSlot(bytes32 slot) internal pure returns (BooleanSlot storage r) {
-        assembly {
-            r.slot := slot
-        }
-    }
-
-    function getBytes32Slot(bytes32 slot) internal pure returns (Bytes32Slot storage r) {
-        assembly {
-            r.slot := slot
-        }
-    }
-
-    function getUint256Slot(bytes32 slot) internal pure returns (Uint256Slot storage r) {
-        assembly {
-            r.slot := slot
-        }
     }
 
     function getStringSlot(bytes32 slot) internal pure returns (StringSlot storage r) {
@@ -556,17 +496,6 @@ library StorageSlot {
         }
     }
 
-    function getBytesSlot(bytes32 slot) internal pure returns (BytesSlot storage r) {
-        assembly {
-            r.slot := slot
-        }
-    }
-
-    function getBytesSlot(bytes storage store) internal pure returns (BytesSlot storage r) {
-        assembly {
-            r.slot := store.slot
-        }
-    }
 }
 
 type ShortString is bytes32;
@@ -622,13 +551,6 @@ library ShortStrings {
         }
     }
 
-    function byteLengthWithFallback(ShortString value, string storage store) internal view returns (uint256) {
-        if (ShortString.unwrap(value) != FALLBACK_SENTINEL) {
-            return byteLength(value);
-        } else {
-            return bytes(store).length;
-        }
-    }
 }
 
 interface IERC5267 {
@@ -1305,10 +1227,6 @@ library Time {
     }
 
     type Delay is uint112;
-
-    function toDelay(uint32 duration) internal pure returns (Delay) {
-        return Delay.wrap(duration);
-    }
 
     function _getFullAt(Delay self, uint48 timepoint) private pure returns (uint32, uint32, uint48) {
         (uint32 valueBefore, uint32 valueAfter, uint48 effect) = self.unpack();
