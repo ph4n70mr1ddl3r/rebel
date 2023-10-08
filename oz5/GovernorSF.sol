@@ -2125,7 +2125,7 @@ abstract contract GovernorVotesQuorumFraction is GovernorVotes {
     }
 }
 
-contract TestGovernor is Governor, GovernorSettings, GovernorCountingSimple, GovernorVotes, GovernorVotesQuorumFraction {
+contract GovernorSF is Governor, GovernorSettings, GovernorCountingSimple, GovernorVotes, GovernorVotesQuorumFraction {
     constructor(IVotes _token)
         Governor("TestGovernor")
         GovernorSettings(7200 /* 1 day */, 50400 /* 1 week */, 0)
