@@ -7,10 +7,10 @@ import "GovernorCountingSimple.sol";
 import "GovernorVotes.sol";
 import "GovernorVotesQuorumFraction.sol";
 
-contract GovernMF is Governor, GovernorSettings, GovernorCountingSimple, GovernorVotes, GovernorVotesQuorumFraction {
+contract RebelGovernor is Governor, GovernorSettings, GovernorCountingSimple, GovernorVotes, GovernorVotesQuorumFraction {
     constructor(IVotes _token)
-        Governor("GovernMF")
-        GovernorSettings(7200 /* 1 day */, 50400 /* 1 week */, 1e18)
+        Governor("RebelGovernor")
+        GovernorSettings(43200 , 302400 , 10e18)
         GovernorVotes(_token)
         GovernorVotesQuorumFraction(4)
     {}
