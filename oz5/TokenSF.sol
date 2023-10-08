@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.19;
+pragma solidity ^0.8.21;
 
 interface IERC20 {
     event Transfer(address indexed from, address indexed to, uint256 value);
@@ -1451,10 +1451,8 @@ abstract contract ERC20Votes is ERC20, Votes {
     }
 }
 
-contract TestToken is ERC20, ERC20Burnable, ERC20Permit, ERC20Votes {
-    constructor() ERC20("Test Token", "TEST") ERC20Permit("Test Token") {}
-
-    // The following functions are overrides required by Solidity.
+contract TokenSF is ERC20, ERC20Burnable, ERC20Permit, ERC20Votes {
+    constructor() ERC20("Token SF", "TSF") ERC20Permit("Test Token") {}
 
     function _update(address from, address to, uint256 value)
         internal
